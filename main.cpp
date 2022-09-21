@@ -1,12 +1,6 @@
 #include <iostream>
-//#include <string.h>
-//#include <unistd.h>
-//#include <sys/types.h>
-//#include <sys/socket.h>
-//#include <netinet/in.h>
-#include <string.h>
 
-#include "Linux_Socket_Implementation.h"
+#include "Socket_Implementation.h"
 
 
 /*
@@ -93,6 +87,15 @@ int main()
 
 int main()
 {
+	LNET_CREATE_LOG_LEVEL("WINDOWS_SOCKET_LOG_LEVEL");
+
+	WSADATA wsaData;
+	int error = WSAStartup(MAKEWORD(2,2), &wsaData);
+	if (error != 0) {
+		std::cout << "WSAStartup failed: " << error << "\n";
+		return 1;
+	}
+
 	std::cout << "openning socket!\n";
 	LNet::Server_Socket_Ptr server_socket = LNet::Server_Socket_Impl::create(25565);
 	if(!server_socket)
